@@ -333,13 +333,14 @@ entityDef projectile_rocket
 	"speed"						"900"
 	"fuse"						"6"
 	"push"						"48000"
+	"bounce"					"1"
 	
 							
 	"detonate_on_fuse"			"1"
 	"detonate_on_death"			"0"
-	"detonate_on_world"			"1"
+	"detonate_on_world"			"0"
 	"detonate_on_actor"			"1"
-	"detonate_on_bounce"		"1"
+	"detonate_on_bounce"		"0"
 								
 	"impact_gib"				"1"								
 	"decal_size"				"75"
