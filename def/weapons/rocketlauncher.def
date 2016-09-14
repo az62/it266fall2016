@@ -334,6 +334,7 @@ entityDef projectile_rocket
 	"fuse"						"6"
 	"push"						"48000"
 	"bounce"					"1"
+	"gravity"					"1"
 	
 							
 	"detonate_on_fuse"			"1"
