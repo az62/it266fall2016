@@ -424,7 +424,7 @@ stateResult_t rvWeaponRocketLauncher::State_Idle( const stateParms_t& parms ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
 			}		
-			if ( gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) ) ) {
+			if ( gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) == ClipSize( ) ) ) {
 				SetState ( "Fire", 2 );
 				return SRESULT_DONE;
 			}
@@ -451,7 +451,7 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:			
-			if ( wsfl.attack && gameLocal.time >= nextAttackTime && ( gameLocal.isClient || AmmoInClip ( ) == ClipSize ( ) ) && !wsfl.lowerWeapon ) {
+			if ( wsfl.attack && gameLocal.time >= nextAttackTime && gameLocal.isClient && AmmoInClip ( ) == ClipSize ( ) && !wsfl.lowerWeapon ) {
 				SetState ( "Fire", 0 );
 				return SRESULT_DONE;
 			}
@@ -492,22 +492,22 @@ stateResult_t rvWeaponRocketLauncher::State_Rocket_Idle ( const stateParms_t& pa
 		
 		case STAGE_WAIT:
 			if ( AmmoAvailable ( ) > AmmoInClip() ) {
-				if ( idleEmpty ) {
+				/*if ( idleEmpty ) {
 					SetRocketState ( "Rocket_Reload", 0 );
 					return SRESULT_DONE;
-				/*} else if ( ClipSize ( ) > 1 ) {
+				} else if ( ClipSize ( ) > 1 ) {
 					if ( gameLocal.time > nextAttackTime && AmmoInClip ( ) < ClipSize( ) ) {
 						if ( !AmmoInClip() || !wsfl.attack ) {
 							SetRocketState ( "Rocket_Reload", 0 );
 							return SRESULT_DONE;
 						}
-					}*/
-				} else {
+					}
+				} else {*/
 					if ( AmmoInClip ( ) == 0 ) {
 						SetRocketState ( "Rocket_Reload", 0 );
 						return SRESULT_DONE;
 					}				
-				}
+				//}
 			}
 			return SRESULT_WAIT;
 	}
