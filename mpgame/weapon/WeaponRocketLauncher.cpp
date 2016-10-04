@@ -424,7 +424,7 @@ stateResult_t rvWeaponRocketLauncher::State_Idle( const stateParms_t& parms ) {
 				SetState ( "Lower", 4 );
 				return SRESULT_DONE;
 			}		
-			if ( gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) == ClipSize( ) ) ) {
+			if ( gameLocal.time > nextAttackTime && wsfl.attack && ( gameLocal.isClient || AmmoInClip ( ) ) ) {
 				SetState ( "Fire", 2 );
 				return SRESULT_DONE;
 			}
@@ -442,24 +442,20 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 	enum {
 		STAGE_INIT,
 		STAGE_WAIT,
-	};
+	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
-			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));		
+			nextAttackTime = gameLocal.time + (fireRate / 7 * owner->PowerUpModifier ( PMOD_FIRERATE ));		
 			Attack ( false, 1, spread, 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_LEGS, "fire", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:			
-			if ( wsfl.attack && gameLocal.time >= nextAttackTime && gameLocal.isClient && AmmoInClip ( ) == ClipSize ( ) && !wsfl.lowerWeapon ) {
+			if ( wsfl.attack && gameLocal.time >= nextAttackTime && ( gameLocal.isClient || AmmoInClip ( ) ) && !wsfl.lowerWeapon ) {
 				SetState ( "Fire", 0 );
 				return SRESULT_DONE;
 			}
 			if ( gameLocal.time > nextAttackTime && AnimDone ( ANIMCHANNEL_LEGS, 4 ) ) {
-				if ( AmmoInClip ( ) < ClipSize ( ) && AmmoInClip ( ) != 0 ) {
-					SetState ( "Fire", 0 );
-					return SRESULT_STAGE ( STAGE_INIT );
-				}
 				SetState ( "Idle", 4 );
 				return SRESULT_DONE;
 			}
@@ -492,7 +488,7 @@ stateResult_t rvWeaponRocketLauncher::State_Rocket_Idle ( const stateParms_t& pa
 		
 		case STAGE_WAIT:
 			if ( AmmoAvailable ( ) > AmmoInClip() ) {
-				/*if ( idleEmpty ) {
+				if ( idleEmpty ) {
 					SetRocketState ( "Rocket_Reload", 0 );
 					return SRESULT_DONE;
 				} else if ( ClipSize ( ) > 1 ) {
@@ -502,12 +498,12 @@ stateResult_t rvWeaponRocketLauncher::State_Rocket_Idle ( const stateParms_t& pa
 							return SRESULT_DONE;
 						}
 					}
-				} else {*/
+				} else {
 					if ( AmmoInClip ( ) == 0 ) {
 						SetRocketState ( "Rocket_Reload", 0 );
 						return SRESULT_DONE;
 					}				
-				//}
+				}
 			}
 			return SRESULT_WAIT;
 	}
