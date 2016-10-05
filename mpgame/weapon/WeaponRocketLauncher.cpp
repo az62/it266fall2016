@@ -48,6 +48,7 @@ protected:
 	float								reloadRate;
 
 	bool								idleEmpty;
+	bool								reloading;
 
 private:
 
@@ -95,6 +96,7 @@ void rvWeaponRocketLauncher::Spawn ( void ) {
 	float f;
 
 	idleEmpty = false;
+	reloading = false;
 	
 	spawnArgs.GetFloat ( "lockRange", "0", guideRange );
 
@@ -446,6 +448,7 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			reloading = false;
 			nextAttackTime = gameLocal.time + (fireRate / 7 * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			Attack ( false, 1, spread, 0, 1.0f );
 			PlayAnim ( ANIMCHANNEL_LEGS, "fire", parms.blendFrames );
@@ -454,6 +457,9 @@ stateResult_t rvWeaponRocketLauncher::State_Fire ( const stateParms_t& parms ) {
 		case STAGE_WAIT:			
 			if ( wsfl.attack && gameLocal.time >= nextAttackTime && ( gameLocal.isClient || AmmoInClip ( ) ) && !wsfl.lowerWeapon ) {
 				SetState ( "Fire", 0 );
+				return SRESULT_DONE;
+			} else if (!reloading && gameLocal.time > nextAttackTime && AnimDone ( ANIMCHANNEL_LEGS, 4 ) && AmmoInClip ( ) && AmmoInClip ( ) < ClipSize ( ) ){
+				SetState ("Fire", 0);
 				return SRESULT_DONE;
 			}
 			if ( gameLocal.time > nextAttackTime && AnimDone ( ANIMCHANNEL_LEGS, 4 ) ) {
@@ -490,17 +496,20 @@ stateResult_t rvWeaponRocketLauncher::State_Rocket_Idle ( const stateParms_t& pa
 		case STAGE_WAIT:
 			if ( AmmoAvailable ( ) > AmmoInClip() ) {
 				if ( idleEmpty ) {
+					reloading = true;
 					SetRocketState ( "Rocket_Reload", 0 );
 					return SRESULT_DONE;
 				} else if ( ClipSize ( ) > 1 ) {
 					if ( gameLocal.time > nextAttackTime && AmmoInClip ( ) < ClipSize( ) ) {
 						if ( !AmmoInClip() && !wsfl.attack ) {
+							reloading = true;
 							SetRocketState ( "Rocket_Reload", 0 );
 							return SRESULT_DONE;
 						}
 					}
 				} else {
 					if ( AmmoInClip ( ) == 0 ) {
+						reloading = true;
 						SetRocketState ( "Rocket_Reload", 0 );
 						return SRESULT_DONE;
 					}				
