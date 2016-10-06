@@ -786,6 +786,9 @@ public:
 
 	bool					AllowedVoiceDest( int from );
 
+	//Minigolf
+	int						putts;
+
 // RITUAL BEGIN
 // squirrel: added DeadZone multiplayer
 	itemBuyStatus_t			ItemBuyStatus( const char* itemName );
