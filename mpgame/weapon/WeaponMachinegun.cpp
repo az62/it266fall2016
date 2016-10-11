@@ -131,7 +131,7 @@ rvWeaponMachinegun::Flashlight
 ================
 */
 void rvWeaponMachinegun::Flashlight ( bool on ) {
-	owner->Flashlight ( on );
+	/*owner->Flashlight ( on );
 	
 	if ( on ) {
 		viewModel->ShowSurface ( "models/weapons/blaster/flare" );
@@ -139,7 +139,7 @@ void rvWeaponMachinegun::Flashlight ( bool on ) {
 	} else {
 		viewModel->HideSurface ( "models/weapons/blaster/flare" );
 		worldModel->HideSurface ( "models/weapons/blaster/flare" );
-	}
+	}*/
 }
 
 /*
@@ -226,7 +226,7 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
-			if ( wsfl.zoom ) {
+			/*if ( wsfl.zoom ) {
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 				Attack ( true, 1, spreadZoom, 0, 1.0f );
 				fireHeld = true;
@@ -234,11 +234,11 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 				nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 				Attack ( false, 1, spread, 0, 1.0f );
 			}
-			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );	
+			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );	*/
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
-			if ( !fireHeld && wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
+			/*if ( !fireHeld && wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
 				SetState ( "Fire", 0 );
 				return SRESULT_DONE;
 			}
@@ -248,7 +248,7 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 			}		
 			if ( UpdateFlashlight ( ) ) {
 				return SRESULT_DONE;
-			}			
+			}			*/
 			return SRESULT_WAIT;
 	}
 	return SRESULT_ERROR;
