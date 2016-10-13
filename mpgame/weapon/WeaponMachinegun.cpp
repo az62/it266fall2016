@@ -223,9 +223,18 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 	enum {
 		STAGE_INIT,
 		STAGE_WAIT,
-	};	
+	};
+	idVec3 str; 	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			//Impulse strength
+			
+			str.Set(100,0,0);
+			
+			//Set stroke impulse
+			owner -> ApplyImpulse(owner,1,owner->GetPhysics()->GetOrigin(),str,false);
+			gameLocal.Printf("Executed where you want");
+
 			/*if ( wsfl.zoom ) {
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 				Attack ( true, 1, spreadZoom, 0, 1.0f );
