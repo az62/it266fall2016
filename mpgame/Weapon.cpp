@@ -2508,10 +2508,12 @@ rvWeapon::Attack
 void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuseOffset, float power ) {
 	idVec3 muzzleOrigin;
 	idMat3 muzzleAxis;
-	idVec3 impulse;
-	impulse.Set(10000,10000,10000);
+	owner->GetViewPos(owner->GetEyePosition(),owner->viewAxis);
 
-	owner->ApplyImpulse(owner,0,muzzleOrigin,impulse,false);
+	idVec3 impulse;
+	impulse.Set(100000,100000,100000);
+	impulse = impulse * owner->viewAxis;
+	owner->GetPlayerPhysics()->ApplyImpulse(100,owner->GetEyePosition(),impulse);
 }
 //	if ( !viewModel ) {
 //		common->Warning( "NULL viewmodel %s\n", __FUNCTION__ );
