@@ -32,7 +32,7 @@ protected:
 	rvClientEffectPtr	impactEffect;
 	int					impactMaterial;
 
-	void				Attack				( void );
+	//void				Attack				( void );
 	void				StartBlade			( void );
 	void				StopBlade			( void );
 
@@ -204,7 +204,7 @@ void rvWeaponGauntlet::CleanupWeapon( void ) {
 ================
 rvWeaponGauntlet::Attack
 ================
-*/
+
 void rvWeaponGauntlet::Attack ( void ) {
 	trace_t		tr;
 	idEntity*	ent;
@@ -301,7 +301,7 @@ void rvWeaponGauntlet::Attack ( void ) {
 		nextAttackTime = gameLocal.time + fireRate;
 	}
 }
-
+*/
 /*
 ================
 rvWeaponGauntlet::StartBlade
@@ -461,6 +461,47 @@ rvWeaponGauntlet::State_Fire
 */
 stateResult_t rvWeaponGauntlet::State_Fire( const stateParms_t& parms ) {
 	enum {
+		STAGE_INIT,
+		STAGE_WAIT,
+	};	
+	switch ( parms.stage ) {
+		case STAGE_INIT:
+			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+			Attack ( true, 1, 0, 10, 1.0f );
+			return SRESULT_STAGE ( STAGE_WAIT );
+			/*if ( wsfl.zoom ) {
+				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+				Attack ( true, 1, spreadZoom, 10, 1.0f );
+				fireHeld = true;
+			} else {
+				nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+				Attack ( false, 1, spread, 10, 1.0f );
+			}
+			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );*/
+	
+		case STAGE_WAIT:		
+			idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
+			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
+				SetState ( "Idle", 0 );
+				return SRESULT_DONE;
+			}
+
+			return SRESULT_WAIT;
+			/*if ( !fireHeld && wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
+				SetState ( "Fire", 0 );
+				return SRESULT_DONE;
+			}
+			if ( AnimDone ( ANIMCHANNEL_ALL, 0 ) ) {
+				SetState ( "Idle", 0 );
+				return SRESULT_DONE;
+			}		
+			if ( UpdateFlashlight ( ) ) {
+				return SRESULT_DONE;
+			}	*/		
+	}
+	return SRESULT_ERROR;
+
+	/*enum {
 		STAGE_START,
 		STAGE_START_WAIT,
 		STAGE_LOOP,
@@ -511,5 +552,5 @@ stateResult_t rvWeaponGauntlet::State_Fire( const stateParms_t& parms ) {
 			}
 			return SRESULT_WAIT;
 	}			
-	return SRESULT_ERROR;
+	return SRESULT_ERROR;*/
 }

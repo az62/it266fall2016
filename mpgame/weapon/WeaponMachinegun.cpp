@@ -226,6 +226,9 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+			Attack ( true, 1, 0, 10, 1.0f );
+			return SRESULT_STAGE ( STAGE_WAIT );
 			/*if ( wsfl.zoom ) {
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 				Attack ( true, 1, spreadZoom, 10, 1.0f );
@@ -235,9 +238,6 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 				Attack ( false, 1, spread, 10, 1.0f );
 			}
 			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );*/
-			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack ( true, 1, spreadZoom, 10, 1.0f );
-			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
 			idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
