@@ -144,20 +144,16 @@ stateResult_t rvWeaponGrenadeLauncher::State_Fire ( const stateParms_t& parms ) 
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
-			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack ( false, 1, spread, 0, 1.0f );
-			PlayAnim ( ANIMCHANNEL_ALL, GetFireAnim(), 0 );	
+			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+			Attack ( true, 1, 0, 10, 1.0f );
 			return SRESULT_STAGE ( STAGE_WAIT );
-	
+			
 		case STAGE_WAIT:		
-			if ( wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
-				SetState ( "Fire", 0 );
-				return SRESULT_DONE;
-			}
-			if ( AnimDone ( ANIMCHANNEL_ALL, 0 ) ) {
+			idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
+			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
 				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
-			}		
+			}
 			return SRESULT_WAIT;
 	}
 	return SRESULT_ERROR;

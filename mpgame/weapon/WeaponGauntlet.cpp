@@ -202,7 +202,7 @@ void rvWeaponGauntlet::CleanupWeapon( void ) {
 
 /*
 ================
-rvWeaponGauntlet::Attack
+rvWeaponGauntlet::Attack				//use Attack() from Weapon.cpp instead
 ================
 
 void rvWeaponGauntlet::Attack ( void ) {
@@ -469,15 +469,6 @@ stateResult_t rvWeaponGauntlet::State_Fire( const stateParms_t& parms ) {
 			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			Attack ( true, 1, 0, 10, 1.0f );
 			return SRESULT_STAGE ( STAGE_WAIT );
-			/*if ( wsfl.zoom ) {
-				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, spreadZoom, 10, 1.0f );
-				fireHeld = true;
-			} else {
-				nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( false, 1, spread, 10, 1.0f );
-			}
-			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );*/
 	
 		case STAGE_WAIT:		
 			idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
@@ -487,70 +478,6 @@ stateResult_t rvWeaponGauntlet::State_Fire( const stateParms_t& parms ) {
 			}
 
 			return SRESULT_WAIT;
-			/*if ( !fireHeld && wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
-				SetState ( "Fire", 0 );
-				return SRESULT_DONE;
-			}
-			if ( AnimDone ( ANIMCHANNEL_ALL, 0 ) ) {
-				SetState ( "Idle", 0 );
-				return SRESULT_DONE;
-			}		
-			if ( UpdateFlashlight ( ) ) {
-				return SRESULT_DONE;
-			}	*/		
 	}
 	return SRESULT_ERROR;
-
-	/*enum {
-		STAGE_START,
-		STAGE_START_WAIT,
-		STAGE_LOOP,
-		STAGE_LOOP_WAIT,
-		STAGE_END,
-		STAGE_END_WAIT
-	};	
-	switch ( parms.stage ) {
-		case STAGE_START:	
-			PlayAnim( ANIMCHANNEL_ALL, "attack_start", parms.blendFrames );
-			StartBlade();
-			loopSound = LOOP_NONE;
-			// #32 - no gauntlet spin up
-			//return SRESULT_STAGE( STAGE_START_WAIT );
-			return SRESULT_STAGE( STAGE_LOOP );
-		
-		case STAGE_START_WAIT:
-			if ( !wsfl.attack ) {
-				return SRESULT_STAGE( STAGE_END );
-			}
-			if ( AnimDone( ANIMCHANNEL_ALL, parms.blendFrames ) ) {
-				return SRESULT_STAGE( STAGE_LOOP );
-			}
-			return SRESULT_WAIT;
-			
-		case STAGE_LOOP:
-			PlayCycle( ANIMCHANNEL_ALL, "attack_loop", parms.blendFrames );
-			StartSound( "snd_spin_loop", SND_CHANNEL_WEAPON, 0, false, 0 );
-			return SRESULT_STAGE(STAGE_LOOP_WAIT);
-			
-		case STAGE_LOOP_WAIT:
-			if ( !wsfl.attack || wsfl.lowerWeapon ) {
-				return SRESULT_STAGE( STAGE_END );
-			}
-			Attack();
-			return SRESULT_WAIT;
-		
-		case STAGE_END:
-			PlayAnim( ANIMCHANNEL_ALL, "attack_end", parms.blendFrames );
-			StopBlade();
-			StartSound( "snd_spin_down", SND_CHANNEL_WEAPON, 0, false, 0 );
-			return SRESULT_STAGE( STAGE_END_WAIT );
-		
-		case STAGE_END_WAIT:
-			if ( wsfl.attack || AnimDone( ANIMCHANNEL_ALL, parms.blendFrames ) ) {
-				PostState( "Idle", parms.blendFrames );
-				return SRESULT_DONE;
-			}
-			return SRESULT_WAIT;
-	}			
-	return SRESULT_ERROR;*/
 }
