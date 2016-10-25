@@ -229,15 +229,6 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			Attack ( true, 1, 0, 10, 1.0f );
 			return SRESULT_STAGE ( STAGE_WAIT );
-			/*if ( wsfl.zoom ) {
-				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, spreadZoom, 10, 1.0f );
-				fireHeld = true;
-			} else {
-				nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( false, 1, spread, 10, 1.0f );
-			}
-			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );*/
 	
 		case STAGE_WAIT:		
 			idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
@@ -245,19 +236,7 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
 			}
-
-			return SRESULT_WAIT;
-			/*if ( !fireHeld && wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
-				SetState ( "Fire", 0 );
-				return SRESULT_DONE;
-			}
-			if ( AnimDone ( ANIMCHANNEL_ALL, 0 ) ) {
-				SetState ( "Idle", 0 );
-				return SRESULT_DONE;
-			}		
-			if ( UpdateFlashlight ( ) ) {
-				return SRESULT_DONE;
-			}	*/		
+			return SRESULT_WAIT;		
 	}
 	return SRESULT_ERROR;
 }

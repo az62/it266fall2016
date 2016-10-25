@@ -163,6 +163,26 @@ stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
 	};	
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			gameLocal.Printf("Firing shootgun\n");
+			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+			Attack ( true, 1, 0, 10, 1.0f );
+			return SRESULT_STAGE ( STAGE_WAIT );
+	
+		case STAGE_WAIT:		
+			idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
+			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
+				SetState ( "Idle", 0 );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;		
+	}
+	return SRESULT_ERROR;
+	/*enum {
+		STAGE_INIT,
+		STAGE_WAIT,
+	};	
+	switch ( parms.stage ) {
+		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			Attack( false, hitscans, spread, 0, 1.0f );
 			PlayAnim( ANIMCHANNEL_ALL, "fire", 0 );	
@@ -185,7 +205,7 @@ stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
 			}
 			return SRESULT_WAIT;
 	}
-	return SRESULT_ERROR;
+	return SRESULT_ERROR;*/
 }
 
 /*
