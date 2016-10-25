@@ -2502,12 +2502,12 @@ void rvWeapon::AddToClip ( int amount ) {
 
 /*
 ================
-rvWeapon::Attack
+rvWeapon::Attack			PUTTING
 ================
 */
-void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuseOffset, float power ) {
+void rvWeapon::Attack( bool altAttack, float num_attacks, float spread, float fuseOffset, float power ) {
 	//power becomes scale of shot charge
-	//fuseOffset becomes innate club strength (putter vs iron)
+	//num_attacks, spread, and fuseOffset become x,y,z for putt vector, respectively
 
 	idVec3 muzzleOrigin;
 	idMat3 muzzleAxis;
