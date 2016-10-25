@@ -2506,13 +2506,16 @@ rvWeapon::Attack
 ================
 */
 void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuseOffset, float power ) {
+	//power becomes scale of shot charge
+	//fuseOffset becomes innate club strength (putter vs iron)
+
 	idVec3 muzzleOrigin;
 	idMat3 muzzleAxis;
 	//owner->GetViewPos(owner->GetEyePosition(),owner->viewAxis);
 
 	idVec3 impulse;
 	impulse.Set(10000,1000,10000);
-	impulse = impulse * playerViewAxis;
+	impulse = impulse * playerViewAxis * fuseOffset * power;
 	owner->GetPlayerPhysics()->ApplyImpulse(100,playerViewOrigin,impulse);
 }
 //	if ( !viewModel ) {
