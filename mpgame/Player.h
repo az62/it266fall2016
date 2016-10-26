@@ -413,6 +413,10 @@ public:
 
 	float					handicap; // multiplier for damage/health
 
+	//MINIGOLF
+
+	int						putts;
+
 public:
 	CLASS_PROTOTYPE( idPlayer );
 

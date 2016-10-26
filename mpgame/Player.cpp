@@ -1347,6 +1347,11 @@ idPlayer::idPlayer() {
 	prevOnGround = true;
 	clientIdealWeaponPredictFrame = -1;
 	serverReceiveEvent = false;
+
+	
+	//MINIGOLF
+
+	putts = 0;
 }
 
 /*
