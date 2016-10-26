@@ -35,6 +35,8 @@ typedef enum {
 	GAME_DEADZONE,
 	NUM_GAME_TYPES,
 // RITUAL END
+// MINIGOLF
+	GAME_MINIGOLF,
 } gameType_t;
 
 

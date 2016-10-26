@@ -32,7 +32,7 @@ protected:
 	rvClientEffectPtr	impactEffect;
 	int					impactMaterial;
 
-	void				Attack				( void );
+	//void				Attack				( void );
 	void				StartBlade			( void );
 	void				StopBlade			( void );
 
@@ -202,9 +202,9 @@ void rvWeaponGauntlet::CleanupWeapon( void ) {
 
 /*
 ================
-rvWeaponGauntlet::Attack
+rvWeaponGauntlet::Attack				//use Attack() from Weapon.cpp instead
 ================
-*/
+
 void rvWeaponGauntlet::Attack ( void ) {
 	trace_t		tr;
 	idEntity*	ent;
@@ -301,7 +301,7 @@ void rvWeaponGauntlet::Attack ( void ) {
 		nextAttackTime = gameLocal.time + fireRate;
 	}
 }
-
+*/
 /*
 ================
 rvWeaponGauntlet::StartBlade
@@ -461,55 +461,24 @@ rvWeaponGauntlet::State_Fire
 */
 stateResult_t rvWeaponGauntlet::State_Fire( const stateParms_t& parms ) {
 	enum {
-		STAGE_START,
-		STAGE_START_WAIT,
-		STAGE_LOOP,
-		STAGE_LOOP_WAIT,
-		STAGE_END,
-		STAGE_END_WAIT
+		STAGE_INIT,
+		STAGE_WAIT,
 	};	
+	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
-		case STAGE_START:	
-			PlayAnim( ANIMCHANNEL_ALL, "attack_start", parms.blendFrames );
-			StartBlade();
-			loopSound = LOOP_NONE;
-			// #32 - no gauntlet spin up
-			//return SRESULT_STAGE( STAGE_START_WAIT );
-			return SRESULT_STAGE( STAGE_LOOP );
-		
-		case STAGE_START_WAIT:
-			if ( !wsfl.attack ) {
-				return SRESULT_STAGE( STAGE_END );
+		case STAGE_INIT:
+			if ( playerVelocity == idVec3 (0,0,0) ){
+				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+				Attack ( true, 100000, 1, 100000, 1.0f );
 			}
-			if ( AnimDone( ANIMCHANNEL_ALL, parms.blendFrames ) ) {
-				return SRESULT_STAGE( STAGE_LOOP );
-			}
-			return SRESULT_WAIT;
-			
-		case STAGE_LOOP:
-			PlayCycle( ANIMCHANNEL_ALL, "attack_loop", parms.blendFrames );
-			StartSound( "snd_spin_loop", SND_CHANNEL_WEAPON, 0, false, 0 );
-			return SRESULT_STAGE(STAGE_LOOP_WAIT);
-			
-		case STAGE_LOOP_WAIT:
-			if ( !wsfl.attack || wsfl.lowerWeapon ) {
-				return SRESULT_STAGE( STAGE_END );
-			}
-			Attack();
-			return SRESULT_WAIT;
-		
-		case STAGE_END:
-			PlayAnim( ANIMCHANNEL_ALL, "attack_end", parms.blendFrames );
-			StopBlade();
-			StartSound( "snd_spin_down", SND_CHANNEL_WEAPON, 0, false, 0 );
-			return SRESULT_STAGE( STAGE_END_WAIT );
-		
-		case STAGE_END_WAIT:
-			if ( wsfl.attack || AnimDone( ANIMCHANNEL_ALL, parms.blendFrames ) ) {
-				PostState( "Idle", parms.blendFrames );
+			return SRESULT_STAGE ( STAGE_WAIT );
+	
+		case STAGE_WAIT:		
+			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
+				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
 			}
-			return SRESULT_WAIT;
-	}			
+			return SRESULT_WAIT;		
+	}
 	return SRESULT_ERROR;
 }

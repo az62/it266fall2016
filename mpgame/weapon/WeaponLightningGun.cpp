@@ -77,7 +77,7 @@ protected:
 
 private:
 
-	void				Attack					( idEntity* ent, const idVec3& dir, float power = 1.0f );
+	//void				Attack					( idEntity* ent, const idVec3& dir, float power = 1.0f );
 
 	void				UpdateChainLightning	( void );
 	void				StopChainLightning		( void );
@@ -318,9 +318,9 @@ void rvWeaponLightningGun::Think ( void ) {
 		dir.Normalize ( );
 		
 		nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-		Attack ( currentPath.target, dir, power );
+		//Attack ( currentPath.target, dir, power );
 		for ( i = 0; i < chainLightning.Num(); i ++, power *= 0.75f ) {
-			Attack ( chainLightning[i].target, chainLightning[i].normal, power );
+			//Attack ( chainLightning[i].target, chainLightning[i].normal, power );
 		}
 
 		statManager->WeaponFired( owner, owner->GetCurrentWeapon(), chainLightning.Num() + 1 );
@@ -334,9 +334,9 @@ void rvWeaponLightningGun::Think ( void ) {
 
 /*
 ================
-rvWeaponLightningGun::Attack
+rvWeaponLightningGun::Attack						//use Attack() in Weapon.cpp
 ================
-*/
+
 void rvWeaponLightningGun::Attack ( idEntity* ent, const idVec3& dir, float power ) {
 	// Double check
 	if ( !ent || !ent->fl.takedamage ) {
@@ -361,7 +361,7 @@ void rvWeaponLightningGun::Attack ( idEntity* ent, const idVec3& dir, float powe
 // RAVEN END
 	ent->Damage( owner, owner, dir, spawnArgs.GetString ( "def_damage" ), power * owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE ), 0 );
 }
-
+*/
 /*
 ================
 rvWeaponLightningGun::UpdateChainLightning
@@ -812,6 +812,28 @@ rvWeaponLightningGun::State_Fire
 stateResult_t rvWeaponLightningGun::State_Fire( const stateParms_t& parms ) {
 	enum {
 		STAGE_INIT,
+		STAGE_WAIT,
+	};	
+	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
+	switch ( parms.stage ) {
+		case STAGE_INIT:
+			if ( playerVelocity == idVec3 (0,0,0) ){
+				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+				Attack ( true, 1, 0, 10, 1.0f );
+			}
+			return SRESULT_STAGE ( STAGE_WAIT );
+	
+		case STAGE_WAIT:		
+			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
+				SetState ( "Idle", 0 );
+				return SRESULT_DONE;
+			}
+			return SRESULT_WAIT;		
+	}
+	return SRESULT_ERROR;
+	
+	/*enum {
+		STAGE_INIT,
 		STAGE_ATTACKLOOP,
 		STAGE_DONE,
 		STAGE_DONEWAIT
@@ -871,7 +893,7 @@ stateResult_t rvWeaponLightningGun::State_Fire( const stateParms_t& parms ) {
 			}
 			return SRESULT_WAIT;
 	}
-	return SRESULT_ERROR;
+	return SRESULT_ERROR;*/
 }
 
 

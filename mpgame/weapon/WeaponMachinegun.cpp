@@ -224,32 +224,21 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
-			if ( wsfl.zoom ) {
+			if ( playerVelocity == idVec3 (0,0,0) ){
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, spreadZoom, 0, 1.0f );
-				fireHeld = true;
-			} else {
-				nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( false, 1, spread, 0, 1.0f );
+				Attack ( true, 100000, 100000, 1, 1.0f );
 			}
-			PlayAnim ( ANIMCHANNEL_ALL, "fire", 0 );	
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
-			if ( !fireHeld && wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() && !wsfl.lowerWeapon ) {
-				SetState ( "Fire", 0 );
-				return SRESULT_DONE;
-			}
-			if ( AnimDone ( ANIMCHANNEL_ALL, 0 ) ) {
+			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
 				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
-			}		
-			if ( UpdateFlashlight ( ) ) {
-				return SRESULT_DONE;
-			}			
-			return SRESULT_WAIT;
+			}
+			return SRESULT_WAIT;		
 	}
 	return SRESULT_ERROR;
 }

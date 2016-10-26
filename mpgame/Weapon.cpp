@@ -2502,110 +2502,117 @@ void rvWeapon::AddToClip ( int amount ) {
 
 /*
 ================
-rvWeapon::Attack
+rvWeapon::Attack			PUTTING
 ================
 */
-void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuseOffset, float power ) {
-	idVec3 muzzleOrigin;
-	idMat3 muzzleAxis;
-	
-	if ( !viewModel ) {
-		common->Warning( "NULL viewmodel %s\n", __FUNCTION__ );
-		return;
-	}
-	
-	if ( viewModel->IsHidden() ) {
-		return;
-	}
+void rvWeapon::Attack( bool altAttack, float xScale, float yScale, float zScale, float power ) {
+	//power becomes scale of shot charge
+	//num_attacks, spread, and fuseOffset become x,y,z for putt vector, respectively
 
-	// avoid all ammo considerations on an MP client
-	if ( !gameLocal.isClient ) {
-		// check if we're out of ammo or the clip is empty
-		int ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
-		if ( !ammoAvail || ( ( clipSize != 0 ) && ( ammoClip <= 0 ) ) ) {
-			return;
-		}
-
-		owner->inventory.UseAmmo( ammoType, ammoRequired );
-		if ( clipSize && ammoRequired ) {
- 			clipPredictTime = gameLocal.time;	// mp client: we predict this. mark time so we're not confused by snapshots
-			ammoClip -= 1;
-		}
-
-		// wake up nearby monsters
-		if ( !wfl.silent_fire ) {
-			gameLocal.AlertAI( owner );
-		}
-	}
-
-	// set the shader parm to the time of last projectile firing,
-	// which the gun material shaders can reference for single shot barrel glows, etc
-	viewModel->SetShaderParm ( SHADERPARM_DIVERSITY, gameLocal.random.CRandomFloat() );
-	viewModel->SetShaderParm ( SHADERPARM_TIMEOFFSET, -MS2SEC( gameLocal.realClientTime ) );
-
-	if ( worldModel.GetEntity() ) {
-		worldModel->SetShaderParm( SHADERPARM_DIVERSITY, viewModel->GetRenderEntity()->shaderParms[ SHADERPARM_DIVERSITY ] );
-		worldModel->SetShaderParm( SHADERPARM_TIMEOFFSET, viewModel->GetRenderEntity()->shaderParms[ SHADERPARM_TIMEOFFSET ] );
-	}
-
-	// calculate the muzzle position
-	if ( barrelJointView != INVALID_JOINT && spawnArgs.GetBool( "launchFromBarrel" ) ) {
-		// there is an explicit joint for the muzzle
-		GetGlobalJointTransform( true, barrelJointView, muzzleOrigin, muzzleAxis );
-	} else {
-		// go straight out of the view
-		muzzleOrigin = playerViewOrigin;
-		muzzleAxis = playerViewAxis;		
-		muzzleOrigin += playerViewAxis[0] * muzzleOffset;
-	}
-
-	// add some to the kick time, incrementally moving repeat firing weapons back
-	if ( kick_endtime < gameLocal.realClientTime ) {
-		kick_endtime = gameLocal.realClientTime;
-	}
-	kick_endtime += muzzle_kick_time;
-	if ( kick_endtime > gameLocal.realClientTime + muzzle_kick_maxtime ) {
-		kick_endtime = gameLocal.realClientTime + muzzle_kick_maxtime;
-	}
-
-	// add the muzzleflash
-	MuzzleFlash();
-
-	// quad damage overlays a sound
-	if ( owner->PowerUpActive( POWERUP_QUADDAMAGE ) ) {
-		viewModel->StartSound( "snd_quaddamage", SND_CHANNEL_VOICE, 0, false, NULL );
-	}
-
-	// Muzzle flash effect
-	bool muzzleTint = spawnArgs.GetBool( "muzzleTint" );
-	viewModel->PlayEffect( "fx_muzzleflash", flashJointView, false, vec3_origin, false, false, EC_IGNORE, muzzleTint ? owner->GetHitscanTint() : vec4_one );
-
-	if ( worldModel && flashJointWorld != INVALID_JOINT ) {
-		worldModel->PlayEffect( gameLocal.GetEffect( weaponDef->dict, "fx_muzzleflash_world" ), flashJointWorld, vec3_origin, mat3_identity, false, vec3_origin, false, false, EC_IGNORE, muzzleTint ? owner->GetHitscanTint() : vec4_one );
-	}
-
-	owner->WeaponFireFeedback( &weaponDef->dict );
-
-	// Inform the gui of the ammo change
-	viewModel->PostGUIEvent ( "weapon_ammo" );
-	if ( ammoClip == 0 && AmmoAvailable() == 0 ) {
-		viewModel->PostGUIEvent ( "weapon_noammo" );
-	}
-	
-	// The attack is either a hitscan or a launched projectile, do that now.
-	if ( !gameLocal.isClient ) {
-		idDict& dict = altAttack ? attackAltDict : attackDict;
-		power *= owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE );
-		if ( altAttack ? wfl.attackAltHitscan : wfl.attackHitscan ) {
-			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power );
-		} else {
-			LaunchProjectiles( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, fuseOffset, power );
-		}
-		//asalmon:  changed to keep stats even in single player 
-		statManager->WeaponFired( owner, weaponIndex, num_attacks );
-		
-	}
+	idVec3 impulse;
+	impulse = playerViewAxis[ 0 ] * 100000;
+	//impulse = (playerViewAxis * impulse) * power;
+	gameLocal.Printf("Impulse = %d,%d,%d\n",impulse.x,impulse.y,impulse.z);
+	gameLocal.Printf("playerViewOrigin = %d,%d,%d\n",playerViewOrigin.x,playerViewOrigin.y,playerViewOrigin.z);
+	owner->GetPlayerPhysics()->ApplyImpulse(100,playerViewOrigin,impulse);
 }
+//	if ( !viewModel ) {
+//		common->Warning( "NULL viewmodel %s\n", __FUNCTION__ );
+//		return;
+//	}
+//	
+//	if ( viewModel->IsHidden() ) {
+//		return;
+//	}
+//
+//	// avoid all ammo considerations on an MP client
+//	if ( !gameLocal.isClient ) {
+//		// check if we're out of ammo or the clip is empty
+//		int ammoAvail = owner->inventory.HasAmmo( ammoType, ammoRequired );
+//		if ( !ammoAvail || ( ( clipSize != 0 ) && ( ammoClip <= 0 ) ) ) {
+//			return;
+//		}
+//
+//		owner->inventory.UseAmmo( ammoType, ammoRequired );
+//		if ( clipSize && ammoRequired ) {
+// 			clipPredictTime = gameLocal.time;	// mp client: we predict this. mark time so we're not confused by snapshots
+//			ammoClip -= 1;
+//		}
+//
+//		// wake up nearby monsters
+//		if ( !wfl.silent_fire ) {
+//			gameLocal.AlertAI( owner );
+//		}
+//	}
+//
+//	// set the shader parm to the time of last projectile firing,
+//	// which the gun material shaders can reference for single shot barrel glows, etc
+//	viewModel->SetShaderParm ( SHADERPARM_DIVERSITY, gameLocal.random.CRandomFloat() );
+//	viewModel->SetShaderParm ( SHADERPARM_TIMEOFFSET, -MS2SEC( gameLocal.realClientTime ) );
+//
+//	if ( worldModel.GetEntity() ) {
+//		worldModel->SetShaderParm( SHADERPARM_DIVERSITY, viewModel->GetRenderEntity()->shaderParms[ SHADERPARM_DIVERSITY ] );
+//		worldModel->SetShaderParm( SHADERPARM_TIMEOFFSET, viewModel->GetRenderEntity()->shaderParms[ SHADERPARM_TIMEOFFSET ] );
+//	}
+//
+//	// calculate the muzzle position
+//	if ( barrelJointView != INVALID_JOINT && spawnArgs.GetBool( "launchFromBarrel" ) ) {
+//		// there is an explicit joint for the muzzle
+//		GetGlobalJointTransform( true, barrelJointView, muzzleOrigin, muzzleAxis );
+//	} else {
+//		// go straight out of the view
+//		muzzleOrigin = playerViewOrigin;
+//		muzzleAxis = playerViewAxis;		
+//		muzzleOrigin += playerViewAxis[0] * muzzleOffset;
+//	}
+//
+//	// add some to the kick time, incrementally moving repeat firing weapons back
+//	if ( kick_endtime < gameLocal.realClientTime ) {
+//		kick_endtime = gameLocal.realClientTime;
+//	}
+//	kick_endtime += muzzle_kick_time;
+//	if ( kick_endtime > gameLocal.realClientTime + muzzle_kick_maxtime ) {
+//		kick_endtime = gameLocal.realClientTime + muzzle_kick_maxtime;
+//	}
+//
+//	// add the muzzleflash
+//	MuzzleFlash();
+//
+//	// quad damage overlays a sound
+//	if ( owner->PowerUpActive( POWERUP_QUADDAMAGE ) ) {
+//		viewModel->StartSound( "snd_quaddamage", SND_CHANNEL_VOICE, 0, false, NULL );
+//	}
+//
+//	// Muzzle flash effect
+//	bool muzzleTint = spawnArgs.GetBool( "muzzleTint" );
+//	viewModel->PlayEffect( "fx_muzzleflash", flashJointView, false, vec3_origin, false, false, EC_IGNORE, muzzleTint ? owner->GetHitscanTint() : vec4_one );
+//
+//	if ( worldModel && flashJointWorld != INVALID_JOINT ) {
+//		worldModel->PlayEffect( gameLocal.GetEffect( weaponDef->dict, "fx_muzzleflash_world" ), flashJointWorld, vec3_origin, mat3_identity, false, vec3_origin, false, false, EC_IGNORE, muzzleTint ? owner->GetHitscanTint() : vec4_one );
+//	}
+//
+//	owner->WeaponFireFeedback( &weaponDef->dict );
+//
+//	// Inform the gui of the ammo change
+//	viewModel->PostGUIEvent ( "weapon_ammo" );
+//	if ( ammoClip == 0 && AmmoAvailable() == 0 ) {
+//		viewModel->PostGUIEvent ( "weapon_noammo" );
+//	}
+//	
+//	// The attack is either a hitscan or a launched projectile, do that now.
+//	if ( !gameLocal.isClient ) {
+//		idDict& dict = altAttack ? attackAltDict : attackDict;
+//		power *= owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE );
+//		if ( altAttack ? wfl.attackAltHitscan : wfl.attackHitscan ) {
+//			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power );
+//		} else {
+//			LaunchProjectiles( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, fuseOffset, power );
+//		}
+//		//asalmon:  changed to keep stats even in single player 
+//		statManager->WeaponFired( owner, weaponIndex, num_attacks );
+//		
+//	}
+//}
 
 /*
 ================

@@ -161,29 +161,21 @@ stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
-			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			Attack( false, hitscans, spread, 0, 1.0f );
-			PlayAnim( ANIMCHANNEL_ALL, "fire", 0 );	
-			return SRESULT_STAGE( STAGE_WAIT );
+			if ( playerVelocity == idVec3 (0,0,0) ){
+				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+				Attack ( true, 1, 0, 10, 1.0f );
+			}
+			return SRESULT_STAGE ( STAGE_WAIT );
 	
-		case STAGE_WAIT:
-			if ( (!gameLocal.isMultiplayer && (wsfl.lowerWeapon || AnimDone( ANIMCHANNEL_ALL, 0 )) ) || AnimDone( ANIMCHANNEL_ALL, 0 ) ) {
-				SetState( "Idle", 0 );
-				return SRESULT_DONE;
-			}									
-			if ( wsfl.attack && gameLocal.time >= nextAttackTime && AmmoInClip() ) {
-				SetState( "Fire", 0 );
+		case STAGE_WAIT:		
+			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
+				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
 			}
-			if ( clipSize ) {
-				if ( (wsfl.netReload || (wsfl.reload && AmmoInClip() < ClipSize() && AmmoAvailable()>AmmoInClip())) ) {
-					SetState( "Reload", 4 );
-					return SRESULT_DONE;			
-				}				
-			}
-			return SRESULT_WAIT;
+			return SRESULT_WAIT;		
 	}
 	return SRESULT_ERROR;
 }
