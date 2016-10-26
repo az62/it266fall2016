@@ -469,7 +469,7 @@ stateResult_t rvWeaponGauntlet::State_Fire( const stateParms_t& parms ) {
 		case STAGE_INIT:
 			if ( playerVelocity == idVec3 (0,0,0) ){
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, 0, 10, 1.0f );
+				Attack ( true, 100000, 1, 100000, 1.0f );
 			}
 			return SRESULT_STAGE ( STAGE_WAIT );
 	

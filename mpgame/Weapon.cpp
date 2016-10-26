@@ -2505,17 +2505,15 @@ void rvWeapon::AddToClip ( int amount ) {
 rvWeapon::Attack			PUTTING
 ================
 */
-void rvWeapon::Attack( bool altAttack, float num_attacks, float spread, float fuseOffset, float power ) {
+void rvWeapon::Attack( bool altAttack, float xScale, float yScale, float zScale, float power ) {
 	//power becomes scale of shot charge
 	//num_attacks, spread, and fuseOffset become x,y,z for putt vector, respectively
 
-	idVec3 muzzleOrigin;
-	idMat3 muzzleAxis;
-	//owner->GetViewPos(owner->GetEyePosition(),owner->viewAxis);
-
 	idVec3 impulse;
-	impulse.Set(10000,1000,10000);
-	impulse = impulse * playerViewAxis * fuseOffset * power;
+	impulse = playerViewAxis[ 0 ] * 100000;
+	//impulse = (playerViewAxis * impulse) * power;
+	gameLocal.Printf("Impulse = %d,%d,%d\n",impulse.x,impulse.y,impulse.z);
+	gameLocal.Printf("playerViewOrigin = %d,%d,%d\n",playerViewOrigin.x,playerViewOrigin.y,playerViewOrigin.z);
 	owner->GetPlayerPhysics()->ApplyImpulse(100,playerViewOrigin,impulse);
 }
 //	if ( !viewModel ) {
