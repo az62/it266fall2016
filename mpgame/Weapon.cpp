@@ -2509,13 +2509,16 @@ void rvWeapon::Attack( bool altAttack, float xScale, float yScale, float zScale,
 	//power becomes scale of shot charge
 	//num_attacks, spread, and fuseOffset become x,y,z for putt vector, respectively
 	owner -> putts += 1;
-	owner->hud->SetStateInt("players_putts",owner->putts);
+	idStr hud_putts = "Putts: " + idStr(owner->putts);
+	
+	owner->hud->SetStateString("hud_putts",hud_putts);
+	owner->hud->HandleNamedEvent("updatePutts");
 	owner->hud->StateChanged(gameLocal.time);
 	idVec3 impulse;
 	impulse = playerViewAxis[ 0 ] * 100000;
 	//impulse = (playerViewAxis * impulse) * power;
 	//gameLocal.Printf("Impulse = %d,%d,%d\n",impulse.x,impulse.y,impulse.z);
-	gameLocal.Printf("Putts = %d\n",owner->putts);
+	gameLocal.Printf(hud_putts);
 	owner->GetPlayerPhysics()->ApplyImpulse(100,playerViewOrigin,impulse);
 }
 //	if ( !viewModel ) {

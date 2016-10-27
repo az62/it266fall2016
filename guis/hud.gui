@@ -44,7 +44,7 @@ windowDef Desktop
 		namedEvent "hideBrackets";
 		namedEvent "weaponChange";
 		namedEvent "radioChatterDown";
-		set "players_putts" "1";
+		set "player_putts" "1";
 	}
 	
 	onNamedEvent hideHud {
@@ -181,6 +181,11 @@ windowDef Desktop
 		{
 			resettime "armor_amount" "0" ;
 		}
+	}
+	
+	onNamedEvent updatePutts {
+		set "player_putts::text" "$gui::hud_putts"
+
 	}
 	
 // Not used currently
@@ -1804,11 +1809,11 @@ windowDef Desktop
 	{
 		rect	520,0,120,480
 		visible	("gui::stat_visible" == 0)
-		windowDef players_putts
+		windowDef player_putts
 		{
-			rect	35,100,53,13
-			text	"Putts lel"
-			textscale	0.2
+			rect	0,100,153,13
+			text	"Putts: 0"
+			textscale	0.4
 			font	"fonts/lowpixel"
 			visible	1
 			forecolor	1,1,1,0.8
