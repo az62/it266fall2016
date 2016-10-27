@@ -935,7 +935,10 @@ bool idInventory::Give( idPlayer *owner, const idDict &spawnArgs, const char *st
 				gameLocal.Warning( "Unknown weapon '%s'", weaponName.c_str() );
 				return false;
 			}
-
+			//Minigolf victory on rocketlauncher pickup
+			if (weaponName == "weapon_rocketlauncher"){
+				gameLocal.mpGame.OnDeadZoneTeamVictory( -1 );
+			}
  			if ( gameLocal.isMultiplayer 
 				&& ( weapons & ( 1 << i ) ) ) {
 				//already have this weapon
