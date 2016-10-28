@@ -841,6 +841,12 @@ bool idInventory::Give( idPlayer *owner, const idDict &spawnArgs, const char *st
 		return false;
 	}
 
+	//MINIGOLF
+	//Only pickup a weapon if player has come to a halt. Important for landing on goal instead of passing it.
+	if (owner->GetPlayerPhysics()->GetLinearVelocity() != idVec3(0,0,0)){
+		return false;
+	}
+
 	if ( !idStr::Icmpn( statname, "ammo_", 5 ) ) {
 		i = AmmoIndexForAmmoClass( statname );
 		max = MaxAmmoForAmmoClass( owner, statname );
@@ -929,7 +935,10 @@ bool idInventory::Give( idPlayer *owner, const idDict &spawnArgs, const char *st
 				gameLocal.Warning( "Unknown weapon '%s'", weaponName.c_str() );
 				return false;
 			}
-
+			//Minigolf victory on rocketlauncher pickup
+			if (weaponName == "weapon_rocketlauncher"){
+				gameLocal.mpGame.OnDeadZoneTeamVictory( -1 );
+			}
  			if ( gameLocal.isMultiplayer 
 				&& ( weapons & ( 1 << i ) ) ) {
 				//already have this weapon
