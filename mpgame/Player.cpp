@@ -937,6 +937,7 @@ bool idInventory::Give( idPlayer *owner, const idDict &spawnArgs, const char *st
 			}
 			//Minigolf victory on rocketlauncher pickup
 			if (weaponName == "weapon_rocketlauncher"){
+				owner->finalPutts = owner->putts;
 				gameLocal.mpGame.OnDeadZoneTeamVictory( -1 );
 			}
  			if ( gameLocal.isMultiplayer 
@@ -1361,6 +1362,7 @@ idPlayer::idPlayer() {
 	//MINIGOLF
 
 	putts = 0;
+	finalPutts = 0;
 }
 
 /*
@@ -1519,6 +1521,9 @@ void idPlayer::Init( void ) {
 	const idDict		*userInfo = GetUserInfo();
 
 	Hide();
+
+	//MINIGOLF
+	putts					= 0;
 	
 	noclip					= false;
 	godmode					= false;

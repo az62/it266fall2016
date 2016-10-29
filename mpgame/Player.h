@@ -416,6 +416,7 @@ public:
 	//MINIGOLF
 
 	int						putts;
+	int						finalPutts;
 
 public:
 	CLASS_PROTOTYPE( idPlayer );

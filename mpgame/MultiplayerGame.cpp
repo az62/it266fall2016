@@ -314,7 +314,7 @@ void idMultiplayerGame::SpawnPlayer( int clientNum ) {
 	TIME_THIS_SCOPE( __FUNCLINE__);
 
 	idPlayer *p = static_cast< idPlayer * >( gameLocal.entities[ clientNum ] );
-
+	
 	if ( !p->IsFakeClient() ) {
 		bool ingame = playerState[ clientNum ].ingame;
 		// keep ingame to true if needed, that should only happen for local player
@@ -887,7 +887,7 @@ void idMultiplayerGame::UpdateDMScoreboard( idUserInterface *scoreBoard ) {
 					( player->IsFriend( rankedPlayer ) ? I_FRIEND_ENABLED : I_FRIEND_DISABLED ),		// friend icon
 					rankedPlayer->GetUserInfo()->GetString( "ui_name" ),								// name
 					rankedPlayer->GetUserInfo()->GetString( "ui_clan" ),								// clan
-					rankedScore,															 			// score
+					player->putts,															 			// MINIGOLF score
 					GetPlayerTime( rankedPlayer ),														// time
 					playerState[ rankedPlayer->entityNumber ].ping ) );									// ping
 			} else {
@@ -1282,7 +1282,7 @@ const char* idMultiplayerGame::BuildSummaryListString( idPlayer* player, int ran
 			player->GetRank() + 1,
 			player->GetUserInfo()->GetString( "ui_name" ),								// name
 			player->GetUserInfo()->GetString( "ui_clan" ),								// clan
-			rankedScore,																// score
+			player->finalPutts,															// MINIGOLF score
 			weaponString.c_str() );
 }
 

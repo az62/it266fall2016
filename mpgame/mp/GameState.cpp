@@ -568,6 +568,12 @@ void rvGameState::NewState( mpGameState_t newState ) {
 				player->ResetCash();
 				player->forcedReady = false;
 				player->ServerSpectate( true );
+				//MINIGOLF: Reset hud putt counter
+				idStr hud_putts = "Putts: " + idStr(0);
+				player->hud->SetStateString("hud_putts",hud_putts);
+				player->hud->HandleNamedEvent("updatePutts");
+				player->hud->StateChanged(gameLocal.time);
+				//END MINIGOLF
 				static_cast< idPlayer *>( ent )->forcedReady = false;
 				static_cast<idPlayer *>(ent)->ServerSpectate( true );
 // RITUAL END
