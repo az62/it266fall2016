@@ -1681,25 +1681,25 @@ void idPlayer::Init( void ) {
  	value = spawnArgs.GetString( "joint_hips", "" );
  	hipJoint = animator.GetJointHandle( value );
  	if ( hipJoint == INVALID_JOINT ) {
- 		gameLocal.Error( "Joint '%s' not found for 'joint_hips' on '%s'", value, name.c_str() );
+ 		//gameLocal.Error( "Joint '%s' not found for 'joint_hips' on '%s'", value, name.c_str() );
  	}
  
  	value = spawnArgs.GetString( "joint_chest", "" );
  	chestJoint = animator.GetJointHandle( value );
  	if ( chestJoint == INVALID_JOINT ) {
- 		gameLocal.Error( "Joint '%s' not found for 'joint_chest' on '%s'", value, name.c_str() );
+ 		//gameLocal.Error( "Joint '%s' not found for 'joint_chest' on '%s'", value, name.c_str() );
  	}
  
  	value = spawnArgs.GetString( "joint_head", "" );
  	headJoint = animator.GetJointHandle( value );
  	if ( headJoint == INVALID_JOINT ) {
- 		gameLocal.Error( "Joint '%s' not found for 'joint_head' on '%s'", value, name.c_str() );
+ 		//gameLocal.Error( "Joint '%s' not found for 'joint_head' on '%s'", value, name.c_str() );
  	}
 
 	value = spawnArgs.GetString( "joint_neckLean", "neckcontrol" );
 	neckLeanJoint = animator.GetJointHandle( value );
 	if ( neckLeanJoint == INVALID_JOINT ) {
-		gameLocal.Error( "Joint '%s' not found for 'joint_neck' on '%s'", value, name.c_str() );
+		//gameLocal.Error( "Joint '%s' not found for 'joint_neck' on '%s'", value, name.c_str() );
 	}
 
 	// read player lean properties
