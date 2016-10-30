@@ -1870,7 +1870,7 @@ void idPlayer::Spawn( void ) {
 	SetClipModel( );
 	physicsObj.SetMass( spawnArgs.GetFloat( "mass", "100" ) );
 	physicsObj.SetContents( CONTENTS_BODY | (use_combat_bbox?CONTENTS_SOLID:0) );
-	physicsObj.SetClipMask( MASK_PLAYERSOLID );
+	physicsObj.SetClipMask( MASK_SHOT_RENDERMODEL );
 	SetPhysics( &physicsObj );
 	InitAASLocation();
 	
@@ -3106,7 +3106,7 @@ void idPlayer::UpdateModelSetup( bool forceReload ) {
 			newModelName = GetUserInfo() ? GetUserInfo()->GetString( uiKeyName ) : "";
 		}	
 	}
-
+	
 	if( !idStr::Icmp( newModelName, "" ) ) {
 		newModelName = defaultModel;
 	}

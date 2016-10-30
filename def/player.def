@@ -326,7 +326,7 @@ model model_player_marine
 {
 	offset							( 0 0 1 )
 
-	mesh							models/characters/player/player.md5mesh
+	mesh							"models/characters/player/player.md5mesh"
 
 	channel torso					( *waist)
 	channel legs					( *origin *hips -*waist )
@@ -619,7 +619,7 @@ entityDef player_marine
 	"joint_eyeOffset"					""
 	"joint_chestOffset"					"chest"
 
-	"model"							"model_player_marine"
+	"model"							"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"articulatedFigure"					"player"
 	"ragdoll"						"player"
 
@@ -708,14 +708,14 @@ entityDef player_marine
 	"pm_stamina"						"12"
 	"pm_staminathreshold"					"4"
 	"pm_staminarate"					"0.75"
-	"pm_crouchheight"					"38"
+	"pm_crouchheight"					"10"
 	"pm_crouchviewheight"					"32"
-	"pm_normalheight"					"74"
+	"pm_normalheight"					"10"
 	"pm_normalviewheight"					"68"
 	"pm_deadheight"						"20"
 	"pm_deadviewheight"					"10"
 	"pm_crouchrate"						"0.87"
-	"pm_bboxwidth"						"32"
+	"pm_bboxwidth"						"10"
 	"pm_modelview"						"0"			// 0 == normal, 1 == view inside model, 2 == view inside model when dead
 	"pain_delay"						"0.5"		// how long to wait before playing pain sound
 	"respawn_delay"						"1.7"		// minimum delay for respawning after death
@@ -838,49 +838,49 @@ entityDef player_strogg
 model model_player_officer
 {
 	inherit							model_player_marine
-	mesh							models/characters/player/player_officer.md5mesh
+	//mesh							models/characters/player/player_officer.md5mesh
 }
 
 model model_player_fatigue_marine
 {
 	inherit							model_player_marine
-	mesh							models/characters/player/player_fatigue_marine.md5mesh
+	//mesh							models/characters/player/player_fatigue_marine.md5mesh
 }
 
 model model_player_tactical_transfer
 {
 	inherit							model_player_marine
-	mesh							models/characters/player/player_tactical_transfer.md5mesh
+	//mesh							models/characters/player/player_tactical_transfer.md5mesh
 }
 
 model model_player_failed_transfer
 {
 	inherit							model_player_marine
-	mesh							models/characters/player/player_failed_transfer.md5mesh
+	//mesh							models/characters/player/player_failed_transfer.md5mesh
 }
 
 model model_player_slimy_transfer
 {
 	inherit							model_player_marine
-	mesh							models/characters/player/player_slimy_transfer.md5mesh
+	//mesh							models/characters/player/player_slimy_transfer.md5mesh
 }
 
 model model_player_corpse
 {
 	inherit							model_player_marine
-	mesh							models/characters/player/player_corpse.md5mesh
+	//mesh							models/characters/player/player_corpse.md5mesh
 }
 
 model model_player_underwear_marine
 {
 	inherit							model_player_marine
-	mesh							models/characters/player/underwear_marine.md5mesh
+	//mesh							models/characters/player/underwear_marine.md5mesh
 }
 
 model model_player_marine_ui {
 	offset							( 0 0 1 )
 
-	mesh							models/characters/player/player.md5mesh
+	mesh							models/pick_ups/mp_pickups/mp_healthc.lwo
 
 	channel torso					( *waist)
 	channel legs					( *origin *hips -*waist )
@@ -938,7 +938,7 @@ playerModel model_player_tactical_command {
 
 // Marine team models
 playerModel model_player_marine {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_kane2_client"
 	"def_head_ui"		"char_marinehead_kane2_mp"
 	"skin"			"skins/multiplayer/marine"
@@ -947,7 +947,7 @@ playerModel model_player_marine {
 }
 
 playerModel model_player_marine_morris {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_morris_client"
 	"def_head_ui"		"char_marinehead_morris_mp"
 	"skin"			"skins/multiplayer/marine"
@@ -956,7 +956,7 @@ playerModel model_player_marine_morris {
 }
 
 playerModel model_player_marine_voss {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_voss_client"
 	"def_head_ui"		"char_marinehead_voss_mp"
 	"skin"			"skins/multiplayer/marine"
@@ -965,7 +965,7 @@ playerModel model_player_marine_voss {
 }
 
 playerModel model_player_marine_cortez {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_cortez_client"
 	"def_head_ui"		"char_marinehead_cortez_mp"
 	"skin"			"skins/multiplayer/marine"
@@ -974,7 +974,7 @@ playerModel model_player_marine_cortez {
 }
 
 playerModel model_player_marine_helmeted {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_helmet_client"
 	"def_head_ui"		"char_marinehead_helmet_mp"
 	"skin"			"skins/multiplayer/marine"
@@ -983,7 +983,7 @@ playerModel model_player_marine_helmeted {
 }
 
 playerModel model_player_marine_helmeted_bright {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_helmet_bright_client"
 	"def_head_ui"		"char_marinehead_helmet_bright_mp"
 	"skin"			"skins/multiplayer/marine_bright"
@@ -992,7 +992,7 @@ playerModel model_player_marine_helmeted_bright {
 }
 
 playerModel model_player_marine_medic {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_anderson_client"
 	"def_head_ui"		"char_marinehead_anderson_mp"
 	"skin"			"skins/characters/marine/medic_anderson_mp"
@@ -1001,7 +1001,7 @@ playerModel model_player_marine_medic {
 }
 
 playerModel model_player_marine_officer {
-	"model"			"model_player_officer"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_general_harper_client"
 	"def_head_ui"		"char_marinehead_general_harper_mp"
 	"team"			"marine"
@@ -1009,7 +1009,7 @@ playerModel model_player_marine_officer {
 }
 
 playerModel model_player_marine_fatigues {
-	"model"			"model_player_fatigue_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_bidwell_client"
 	"def_head_ui"		"char_marinehead_bidwell_mp"
 	"skin"			"skins/models/characters/marine/fatigues5_armsb"
@@ -1018,7 +1018,7 @@ playerModel model_player_marine_fatigues {
 }
 
 playerModel model_player_marine_tech {
-	"model"			"model_player_marine"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_strassa_client"
 	"def_head_ui"		"char_marinehead_strassa_mp"
 	"skin"			"skins/characters/marine/tech_strauss_mp"
@@ -1027,14 +1027,14 @@ playerModel model_player_marine_tech {
 
 // Strogg team models
 playerModel model_player_tactical_transfer {
-	"model"			"model_player_tactical_transfer"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		""
 	"team"			"strogg"
 	"description"		"#str_108013"
 }
 
 playerModel model_player_tactical_transfer_bright {
-	"model"			"model_player_tactical_transfer"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		""
 	"skin"			"skins/multiplayer/strogg_bright"
 	"team"			"strogg"
@@ -1042,7 +1042,7 @@ playerModel model_player_tactical_transfer_bright {
 }
 
 playerModel model_player_kane_strogg {
-	"model"			"model_player_strogg"
+	"model"			"models/pick_ups/mp_pickups/mp_healthc.lwo"
 	"def_head"		"char_marinehead_kanestrg_client"
 	"def_head_ui"		"char_marinehead_kanestrg_mp"
 	"skin"			""
@@ -1398,7 +1398,7 @@ entityDef player_marine_client {
 	"spawnclass"					"rvClientAFEntity"
 	"articulatedFigure"				"player"
 	"ragdoll"					"player"
-	"model"						"model_player_marine"
+	"model"						"models/pick_ups/mp_pickups/mp_healthc.lwo"
 }
 
 entityDef char_marinehead_default_client {
