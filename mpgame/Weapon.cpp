@@ -2505,20 +2505,25 @@ void rvWeapon::AddToClip ( int amount ) {
 rvWeapon::Attack			PUTTING
 ================
 */
-void rvWeapon::Attack( bool altAttack, float xScale, float yScale, float zScale, float power ) {
-	//power becomes scale of shot charge
+void rvWeapon::Attack( bool altAttack, float xScale, float zScale, float yScale, float power ) {
+	//power is overall strength of shot
 	//num_attacks, spread, and fuseOffset become x,y,z for putt vector, respectively
+	//currently, only yscale is needed
+	
+	//Update HUD
 	owner -> putts += 1;
 	idStr hud_putts = "Putts: " + idStr(owner->putts);
-	
 	owner->hud->SetStateString("hud_putts",hud_putts);
 	owner->hud->HandleNamedEvent("updatePutts");
 	owner->hud->StateChanged(gameLocal.time);
+
+	//Generate impulse vector for putt
 	idVec3 impulse;
-	impulse = playerViewAxis[ 0 ] * 100000;
-	//impulse = (playerViewAxis * impulse) * power;
-	//gameLocal.Printf("Impulse = %d,%d,%d\n",impulse.x,impulse.y,impulse.z);
-	gameLocal.Printf(hud_putts);
+	impulse = playerViewAxis[ 0 ] * power;
+	impulse[2] = impulse[2] / yScale;	//dampen vertical strength based on club type
+
+	//gameLocal.Printf(hud_putts);
+	//Apply impulse to player
 	owner->GetPlayerPhysics()->ApplyImpulse(100,playerViewOrigin,impulse);
 }
 //	if ( !viewModel ) {
