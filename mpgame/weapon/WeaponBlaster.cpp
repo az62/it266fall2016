@@ -92,51 +92,54 @@ rvWeaponBlaster::UpdateAttack
 ================
 */
 bool rvWeaponBlaster::UpdateAttack ( void ) {
-	// Clear fire forced
-	if ( fireForced ) {
-		if ( !wsfl.attack ) {
-			fireForced = false;
-		} else {
-			return false;
-		}
+	//// Clear fire forced
+	//if ( fireForced ) {
+	//	if ( !wsfl.attack ) {
+	//		fireForced = false;
+	//	} else {
+	//		return false;
+	//	}
+	//}
+
+	//// If the player is pressing the fire button and they have enough ammo for a shot
+	//// then start the shooting process.
+	//if ( wsfl.attack && gameLocal.time >= nextAttackTime ) {
+	//	// Save the time which the fire button was pressed
+	//	if ( fireHeldTime == 0 ) {		
+	//		nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+	//		fireHeldTime   = gameLocal.time;
+	//		viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[0] );
+	//	}
+	//}		
+
+	//// If they have the charge mod and they have overcome the initial charge 
+	//// delay then transition to the charge state.
+	//if ( fireHeldTime != 0 ) {
+	//	if ( gameLocal.time - fireHeldTime > chargeDelay ) {
+	//		SetState ( "Charge", 4 );
+	//		return true;
+	//	}
+
+	//	// If the fire button was let go but was pressed at one point then 
+	//	// release the shot.
+	//	if ( !wsfl.attack ) {
+	//		idPlayer * player = gameLocal.GetLocalPlayer();
+	//		if( player )	{
+	//		
+	//			if( player->GuiActive())	{
+	//				//make sure the player isn't looking at a gui first
+	//				SetState ( "Lower", 0 );
+	//			} else {
+	//				SetState ( "Fire", 0 );
+	//			}
+	//		}
+	//		return true;
+	//	}
+	//}
+	if ( wsfl.attack ){
+		SetState ( "Fire", 0 );
+		return true;
 	}
-
-	// If the player is pressing the fire button and they have enough ammo for a shot
-	// then start the shooting process.
-	if ( wsfl.attack && gameLocal.time >= nextAttackTime ) {
-		// Save the time which the fire button was pressed
-		if ( fireHeldTime == 0 ) {		
-			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-			fireHeldTime   = gameLocal.time;
-			viewModel->SetShaderParm ( BLASTER_SPARM_CHARGEGLOW, chargeGlow[0] );
-		}
-	}		
-
-	// If they have the charge mod and they have overcome the initial charge 
-	// delay then transition to the charge state.
-	if ( fireHeldTime != 0 ) {
-		if ( gameLocal.time - fireHeldTime > chargeDelay ) {
-			SetState ( "Charge", 4 );
-			return true;
-		}
-
-		// If the fire button was let go but was pressed at one point then 
-		// release the shot.
-		if ( !wsfl.attack ) {
-			idPlayer * player = gameLocal.GetLocalPlayer();
-			if( player )	{
-			
-				if( player->GuiActive())	{
-					//make sure the player isn't looking at a gui first
-					SetState ( "Lower", 0 );
-				} else {
-					SetState ( "Fire", 0 );
-				}
-			}
-			return true;
-		}
-	}
-	
 	return false;
 }
 
