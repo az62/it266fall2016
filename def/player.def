@@ -782,7 +782,7 @@ entityDef player_marine
 	"snd_stepladder"					"player_steps_ladder"
 
 	"snd_land_hard"						"player_jump_land_hard"
-	"snd_land_soft"						"player_jump_land" //todo: different landing sound for soft versus hard?
+	"snd_land_soft"						"" //todo: different landing sound for soft versus hard?
 	"snd_type"							"weapon_blaster_fire"
 	
 	"snd_guienter"						"player_sounds_guienter"
@@ -1180,8 +1180,8 @@ entityDef player_marine_mp
 	"snd_dzpulse_unhappy"		"mp_dz_unhappy_pulse"
 	"snd_buying_givecash"		"mp_buying_givecash"
 
-	"snd_land_hard"			"player_jump_land_hard_mp"
-	"snd_land_hard_pain"		"player_jump_land_hard_pain_mp"
+	"snd_land_hard"			""
+	"snd_land_hard_pain"		""
 	
 	"snd_footstep"			"player_mp_footstep"
 	"snd_footstep_sand"		"player_mp_footstep"
@@ -1190,7 +1190,7 @@ entityDef player_marine_mp
 	"snd_footstep_rock"		"player_mp_footstep"
 	"snd_footstep_flesh"		"player_mp_footstep"
 	"snd_footstep_water"		"player_mp_footstep"
-	"snd_jump"			"player_jump_mp"
+	"snd_jump"			""
 	
 	// these are new values for mp
 	// quake3 values: FAR fall = 60, Medium = 40, Short = 7

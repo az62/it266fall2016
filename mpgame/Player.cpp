@@ -1526,7 +1526,7 @@ void idPlayer::Init( void ) {
 	putts					= 0;
 	
 	noclip					= false;
-	godmode					= false;
+	godmode					= true;
 	godmodeDamage			= 0;
 	undying					= g_forceUndying.GetBool() ? !gameLocal.isMultiplayer : false;
 
