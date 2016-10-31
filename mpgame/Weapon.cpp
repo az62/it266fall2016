@@ -2501,7 +2501,7 @@ void rvWeapon::AddToClip ( int amount ) {
 
 
 /*
-================
+================?
 rvWeapon::Attack			PUTTING
 ================
 */

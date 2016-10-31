@@ -19,7 +19,7 @@ const float PM_AIRACCELERATE_MP	= 1.18f;
 const float PM_WATERACCELERATE	= 4.0f;
 const float PM_FLYACCELERATE	= 8.0f;
 
-const float PM_FRICTION			= 6.0f;
+const float PM_FRICTION			= 1.0f;
 const float PM_AIRFRICTION		= 0.0f;
 const float PM_WATERFRICTION	= 2.0f;
 const float PM_FLYFRICTION		= 3.0f;
@@ -516,7 +516,7 @@ void idPhysics_Player::Friction( void ) {
 	vel = current.velocity;
 	if ( walking ) {
 		// ignore slope movement, remove all velocity in gravity direction
-		vel += (vel * gravityNormal) * gravityNormal;
+		vel += (vel * -gravityNormal) * gravityNormal;
 	}
 
 	speed = vel.Length();
