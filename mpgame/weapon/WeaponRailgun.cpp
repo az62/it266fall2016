@@ -198,14 +198,18 @@ stateResult_t rvWeaponRailgun::State_Fire ( const stateParms_t& parms ) {
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
-			if ( playerVelocity == idVec3 (0,0,0) || i <= 0){			//player may only putt when player is at rest
+			if ( playerVelocity == idVec3 (0,0,0) /*|| i <= 0*/){			//player may only putt when player is at rest
 				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
+			} else if(gameLocal.time < nextAttackTime){
+				owner->hasCollided = FALSE;
 			}
-			if (gameLocal.time > nextAttackTime){
-				nextAttackTime = gameLocal.time + 100;
-				Attack ( true, 1, 1, 10000, 10000 );
-				i -= 700;
+			if ( !owner->hasCollided ){
+				playerVelocity = -(playerVelocity);
+				playerVelocity += playerViewAxis[0]*3000;
+				playerVelocity[2] = 0;
+
+				owner->GetPlayerPhysics()->ApplyImpulse(100,owner->GetPlayerPhysics()->GetOrigin(),playerVelocity);
 			}
 			return SRESULT_WAIT;		
 	}

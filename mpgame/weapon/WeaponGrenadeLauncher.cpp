@@ -148,8 +148,6 @@ stateResult_t rvWeaponGrenadeLauncher::State_Fire ( const stateParms_t& parms ) 
 			if ( playerVelocity == idVec3 (0,0,0) ){
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 				//is a Blink Shot
-				idVec3 origin;
-				idMat3 axis;
 				trace_t tr;
 
 				gameLocal.TracePoint( owner, tr, playerViewOrigin, playerViewOrigin + playerViewAxis[0] * 600, (MASK_SHOT_RENDERMODEL|CONTENTS_WATER|CONTENTS_PROJECTILE), owner );

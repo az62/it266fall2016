@@ -1078,14 +1078,14 @@ entityDef player_marine_mp
 	"armor"				"0"
 
 	"ammo_none"			"-1"
-	"ammo_railgun"			"-1"
-	"ammo_machinegun"		"1-1-1"
-	"ammo_nailgun"			"-1"
-	"ammo_blaster"			"-1"
-	"ammo_shotgun"			"-1"
-	"ammo_hyperblaster"		"-1"
-	"ammo_rocketlauncher"		"2"
-	"ammo_grenadelauncher"		"-1"
+	"ammo_railgun"			"3"			//curveshot
+	"ammo_machinegun"		"-1"		//iron
+	"ammo_nailgun"			"-1"		//wedge
+	"ammo_blaster"			"-1"		//putter
+	"ammo_shotgun"			"-1"		//airshot
+	"ammo_hyperblaster"		"-1"		//baby shot
+	"ammo_rocketlauncher"		"2"		//goal, doesn't matter
+	"ammo_grenadelauncher"		"2"		//blink shot
 
 	"powerup_effect_joints"		"*body -*r_wrist r_wrist -*l_wrist l_wrist"
 
