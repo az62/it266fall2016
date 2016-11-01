@@ -695,11 +695,11 @@ entityDef player_marine
 	"weapon"						"weapon_blaster"
 	"current_weapon"					"0"
 
-	"pm_jumpheight"						"48"
+	"pm_jumpheight"						"0"
 	"pm_stepsize"						"16"
-	"pm_speed"						"160"  	//DOOM speed was 140
-	"pm_walkspeed"						"80"
-	"pm_crouchspeed"					"80"
+	"pm_speed"						"0"  	//DOOM speed was 140
+	"pm_walkspeed"						"0"
+	"pm_crouchspeed"					"0"
 	"pm_noclipspeed"					"270"	
 	"pm_minviewpitch"					"-89"	// looking up
 //	"pm_maxviewpitch"					"53"	// looking down
@@ -1089,9 +1089,9 @@ entityDef player_marine_mp
 
 	"powerup_effect_joints"		"*body -*r_wrist r_wrist -*l_wrist l_wrist"
 
-	"pm_crouchspeed"		"160"
-	"pm_speed"			"320"
-	"pm_walkspeed"			"160"
+	"pm_crouchspeed"		"0"
+	"pm_speed"			"0"
+	"pm_walkspeed"			"0"
 
 	"fx_spawn"			"effects/mp/player/spawn.fx"
 	"fx_teleport"			"effects/mp/player/teleport.fx"
