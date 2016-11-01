@@ -14173,3 +14173,13 @@ bool idPlayer::IsSpectatedClient( void ) const {
 	}
 	return false;
 }
+
+//MINIGOLF
+idVec3 idPlayer::getCurrentGravity( void ) {
+	return physicsObj.GetGravity();
+}
+
+void idPlayer::setCurrentGravity( idVec3 newGravity ){
+	physicsObj.SetGravity(newGravity);
+	UpdateGravity();
+}

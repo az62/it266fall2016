@@ -645,7 +645,7 @@ stateResult_t rvWeaponNailgun::State_Fire( const stateParms_t& parms ) {
 			if ( playerVelocity == idVec3 (0,0,0) ){
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 				//is a Wedge
-				Attack ( true, 0, 0, .3, 40000 );
+				Attack ( true, 1, 1, .3, 40000 );
 			}
 			return SRESULT_STAGE ( STAGE_WAIT );
 	

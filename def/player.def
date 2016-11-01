@@ -1084,7 +1084,7 @@ entityDef player_marine_mp
 	"ammo_blaster"			"-1"
 	"ammo_shotgun"			"-1"
 	"ammo_hyperblaster"		"-1"
-	"ammo_rocketlauncher"		"-1"
+	"ammo_rocketlauncher"		"2"
 	"ammo_grenadelauncher"		"-1"
 
 	"powerup_effect_joints"		"*body -*r_wrist r_wrist -*l_wrist l_wrist"

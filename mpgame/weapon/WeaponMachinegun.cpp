@@ -230,7 +230,7 @@ stateResult_t rvWeaponMachinegun::State_Fire ( const stateParms_t& parms ) {
 			if ( playerVelocity == idVec3 (0,0,0) ){
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 				//is an Iron
-				Attack ( true, 0, 0, 200, 90000 );
+				Attack ( true, 1, 1, 200, 90000 );
 			}
 			return SRESULT_STAGE ( STAGE_WAIT );
 	

@@ -2522,6 +2522,7 @@ void rvWeapon::Attack( bool altAttack, float xScale, float zScale, float yScale,
 	impulse = playerViewAxis[ 0 ] * power;
 	impulse[2] = impulse[2] / yScale;	//dampen vertical strength based on club type
 
+
 	//gameLocal.Printf(hud_putts);
 	//Apply impulse to player
 	owner->GetPlayerPhysics()->ApplyImpulse(100,playerViewOrigin,impulse);

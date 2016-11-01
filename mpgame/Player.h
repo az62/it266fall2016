@@ -780,6 +780,10 @@ public:
 	bool					IsSpectatedClient( void ) const;
 	bool					IsWaitingForPredictAck( void ) const;
 
+	//MINIGOLF
+	idVec3					getCurrentGravity( void );
+	void					setCurrentGravity( idVec3 );
+
 protected:
 	void					SetupHead( const char* modelKeyName = "", idVec3 headOffset = idVec3(0, 0, 0) );
 
