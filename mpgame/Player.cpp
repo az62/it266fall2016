@@ -6600,6 +6600,9 @@ bool idPlayer::Collide( const trace_t &collision, const idVec3 &velocity ) {
 	idEntity *other;
 	other = gameLocal.entities[ collision.c.entityNum ];
 
+	//Minigolf
+	hasCollided = TRUE;
+
 	// allow client-side prediction of item collisions for simple client effects
 	if ( gameLocal.isClient && !other->IsType( idItem::GetClassType() ) ) {
 		return false;

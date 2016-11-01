@@ -417,6 +417,7 @@ public:
 
 	int						putts;
 	int						finalPutts;
+	bool					hasCollided;
 
 public:
 	CLASS_PROTOTYPE( idPlayer );

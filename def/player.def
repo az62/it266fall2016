@@ -729,15 +729,15 @@ entityDef player_marine
 	"minRestoreHealth1"					"10"		// Minimum health when loading a game for skill level 1
 
 	// ammo
-	"ammo_railgun"						"-1"
+	"ammo_railgun"						"2"
 	"ammo_machinegun"					"-1"
 	"ammo_nailgun"						"-1"
 	"ammo_blaster"						"-1"
-	"ammo_shotgun"						"-1"
+	"ammo_shotgun"						"2"
 	"ammo_hyperblaster"					"-1"
 	"ammo_rocketlauncher"					"-1"
-	"ammo_grenadelauncher"					"-1"
-	"ammo_lightninggun"					"-1"
+	"ammo_grenadelauncher"					"2"
+	"ammo_lightninggun"					"2"
 	"ammo_none"						"-1"
 
 	"max_ammo_blaster"					"-1"

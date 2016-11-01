@@ -184,19 +184,28 @@ stateResult_t rvWeaponRailgun::State_Fire ( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	static int i;
 	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
+
+	//is a curve shot
 	switch ( parms.stage ) {
-		case STAGE_INIT:
+		case STAGE_INIT:	//initial hit
 			if ( playerVelocity == idVec3 (0,0,0) ){
-				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, 0, 10, 1.0f );
+				i = 20000;
+				nextAttackTime = gameLocal.time + 300;
+				Attack ( true, 1, 1, 1, 80000 );
 			}
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
-			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
+			if ( playerVelocity == idVec3 (0,0,0) || i <= 0){			//player may only putt when player is at rest
 				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
+			}
+			if (gameLocal.time > nextAttackTime){
+				nextAttackTime = gameLocal.time + 100;
+				Attack ( true, 1, 1, 10000, 10000 );
+				i -= 700;
 			}
 			return SRESULT_WAIT;		
 	}

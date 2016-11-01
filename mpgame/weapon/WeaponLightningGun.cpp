@@ -300,11 +300,11 @@ void rvWeaponLightningGun::Think ( void ) {
 	currentPath.normal = tr.c.normal;
 	currentPath.target = gameLocal.entities[tr.c.entityNum];
 
-	UpdateChainLightning();
+	//UpdateChainLightning();
 	
-	UpdateEffects( origin );
+	//UpdateEffects( origin );
 	
-	MuzzleFlash();
+	//MuzzleFlash();
 
 	// Inflict damage on all targets being attacked
 	if ( !gameLocal.isClient && gameLocal.time >= nextAttackTime ) {
@@ -328,7 +328,7 @@ void rvWeaponLightningGun::Think ( void ) {
 
 	// Play the lightning crawl effect every so often when doing damage
 	if ( gameLocal.time > nextCrawlTime ) {
-		nextCrawlTime = gameLocal.time + SEC2MS(spawnArgs.GetFloat ( "crawlDelay", ".3" ));
+		//nextCrawlTime = gameLocal.time + SEC2MS(spawnArgs.GetFloat ( "crawlDelay", ".3" ));
 	}
 }
 
@@ -812,21 +812,29 @@ rvWeaponLightningGun::State_Fire
 stateResult_t rvWeaponLightningGun::State_Fire( const stateParms_t& parms ) {
 	enum {
 		STAGE_INIT,
+		STAGE_DELAY,
 		STAGE_WAIT,
 	};	
 	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			//is a Moon Shot
 			if ( playerVelocity == idVec3 (0,0,0) ){
-				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, 0, 10, 1.0f );
+				nextAttackTime = gameLocal.time + 1;
+				Attack ( true, 1, 1, 1, 40000 );
 			}
 			return SRESULT_STAGE ( STAGE_WAIT );
-	
+		
 		case STAGE_WAIT:		
 			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
 				SetState ( "Idle", 0 );
 				return SRESULT_DONE;
+			} else if(gameLocal.time < nextAttackTime){
+				owner->hasCollided = FALSE;
+			}
+			if ( !owner->hasCollided ){
+				idVec3 fakeAntiGrav = idVec3(0,0,1200);			//fake antigrav, cuz apparently you can't change gravity on the fly
+				owner->GetPlayerPhysics()->ApplyImpulse(100,owner->GetPlayerPhysics()->GetOrigin(),fakeAntiGrav);
 			}
 			return SRESULT_WAIT;		
 	}
