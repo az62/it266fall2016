@@ -164,18 +164,14 @@ stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
 	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
-			if ( playerVelocity == idVec3 (0,0,0) ){
-				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, 0, 10, 1.0f );
-			}
+			//is unstuckshot, doesn't check for stationary player
+			nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
+			Attack ( true, 1, 1, 10000, 10000 );
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
 		case STAGE_WAIT:		
-			if ( playerVelocity == idVec3 (0,0,0) ){			//player may only putt when player is at rest
-				SetState ( "Idle", 0 );
-				return SRESULT_DONE;
-			}
-			return SRESULT_WAIT;		
+			SetState ( "Idle", 0 );
+			return SRESULT_DONE;		
 	}
 	return SRESULT_ERROR;
 }

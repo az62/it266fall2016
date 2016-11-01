@@ -394,9 +394,10 @@ stateResult_t WeaponNapalmGun::State_Fire( const stateParms_t& parms ) {
 	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			//is an iron
 			if ( playerVelocity == idVec3 (0,0,0) ){
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, 0, 10, 1.0f );
+				Attack ( true, 1, 1, 200, 90000 );
 			}
 			return SRESULT_STAGE ( STAGE_WAIT );
 	

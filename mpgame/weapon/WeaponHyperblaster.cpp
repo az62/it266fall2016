@@ -227,10 +227,11 @@ stateResult_t rvWeaponHyperblaster::State_Fire ( const stateParms_t& parms ) {
 	};	
 	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
+		//is baby shot
 		case STAGE_INIT:
 			if ( playerVelocity == idVec3 (0,0,0) ){
 				nextAttackTime = gameLocal.time + (altFireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
-				Attack ( true, 1, 0, 10, 1.0f );
+				Attack ( true, 1, 0, 10, 20000 );
 			}
 			return SRESULT_STAGE ( STAGE_WAIT );
 	
