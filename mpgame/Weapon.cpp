@@ -2521,6 +2521,7 @@ void rvWeapon::Attack( bool altAttack, float xScale, float zScale, float yScale,
 	idVec3 impulse;
 	impulse = playerViewAxis[ 0 ] * power;
 	impulse[2] = impulse[2] / yScale;	//dampen vertical strength based on club type
+	owner->inventory.UseAmmo( ammoType, ammoRequired );
 
 
 	//gameLocal.Printf(hud_putts);

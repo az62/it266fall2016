@@ -1,5 +1,5 @@
 //----------------------------------------------------------------
-// hyperblaster.def
+// hyperblaster.def - AKA Baby Putter
 //
 // Copyright 2002-2004 Raven Software
 //----------------------------------------------------------------
@@ -85,7 +85,7 @@ entityDef weapon_hyperblaster
 	"inv_weapon"				"weapon_hyperblaster"
 	"inv_item"					"1"
 	"inv_icon"					"gfx/guis/hud/icons/item_hyperblaster.tga"
-	"inv_name"					"#str_107404"	
+	"inv_name"					"Baby Putter"	
 
 	"weaponname"				"HyperBlaster"
 	"ammoType"					"ammo_hyperblaster"

@@ -161,7 +161,6 @@ stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
-	idVec3 playerVelocity = owner -> GetPlayerPhysics() -> GetLinearVelocity();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			//is unstuckshot, doesn't check for stationary player

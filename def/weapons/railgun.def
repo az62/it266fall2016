@@ -88,7 +88,7 @@ entityDef weapon_railgun
 	"spread"				"0"
 
 	"inv_weapon"				"weapon_railgun"
-	"inv_start_ammo_railgun"		"10"
+	"inv_start_ammo_railgun"		"3"
 	"inv_item"				"1"
 	"inv_icon"				"gfx/guis/hud/icons/item_railgun"
 	"inv_name"				"Curve Shot"
@@ -172,7 +172,7 @@ entityDef weapon_railgun_mp
 	"inherit"				"weapon_railgun"
 	"model_view" 				"weapon_railgun_view_mp"
 	"editor_ignore"				"1"
-	"clipsize"				"0"
+	"clipsize"				"3"
 	"fireRate"				"1.5"
 	"inv_icon"				"gfx/guis/hud/icons/item_railgun_colored.tga"
 	"mtr_simple_icon"		"simpleicons/item_railgun_colored.tga"
@@ -193,7 +193,7 @@ entityDef weapon_railgun_mp
 	// played when you touch a weapon you can't acquire, i.e. weaponStay in MP
 	"snd_noAcquire"			"pickup_weaponstay"
 
-	"inv_start_ammo_railgun"		"7"
+	"inv_start_ammo_railgun"		"3"
 }
 
 entityDef moveable_item_railgun
@@ -332,7 +332,7 @@ entityDef weaponmod_railgun_penetrate
 	"spawnclass"				"idItem"
 	"size"						"32 32 32"
 	"inv_weaponmod"				"wpmod_railgun_penetrate"
-	"inv_ammo_railgun"			"20"
+	"inv_ammo_railgun"			"3"
 	"inv_item"				"1"
 	"inv_icon"				"gfx/guis/hud/icons/item_railgun.tga"
 	"inv_name"				"#str_107439"

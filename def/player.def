@@ -1054,7 +1054,7 @@ entityDef player_marine_mp
 {
 	"inherit"			"player_marine"
 
-	"weapon"			"weapon_machinegun,weapon_blaster,weapon_nailgun"
+	"weapon"			"weapon_machinegun,weapon_blaster,weapon_nailgun,weapon_shotgun"
 	"current_weapon"		"1"
 
 	// replace blaster with gauntlet in MP - not really
